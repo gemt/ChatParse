@@ -1,0 +1,9 @@
+## Interface: 11200
+## Title: ChatParse
+## Version: 1.0
+## Notes: Parses custom chat channels for given keywords
+## Author: Gemt
+
+## SavedVariablesPerCharacter: ChatParse_Vars
+
+ChatParse.lua
