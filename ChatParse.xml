@@ -1,18 +1,16 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Script file="ChatParse.lua"/>
-	<Script file="LazyPigMenu.lua"/>
-	<Script file="LazyPigKeybindsFrame.lua"/>
-	<Frame name="LazyPig">	
+	<Frame name="ChatParse">	
 		<Scripts>
 			<OnLoad>
-				LazyPig_OnLoad();
+				ChatParse_OnLoad();
 			</OnLoad>
 			<OnEvent>
-				 LazyPig_OnEvent(event);
+				 ChatParse_onEvent(event);
 			</OnEvent>
 			<OnUpdate>
-				LazyPig_OnUpdate();
+				ChatParse_OnUpdate();
 			</OnUpdate>
 		</Scripts>
 		<Anchors>
@@ -39,11 +37,4 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Layer>
 		</Layers>
 	</Frame>
-	<GameTooltip name="LazyPig_Buff_Tooltip" hidden="true" inherits="GameTooltipTemplate">
-		<Scripts>
-			<OnLoad>
-				this:SetOwner(this, "ANCHOR_NONE");
-			</OnLoad>
-		</Scripts>
-	</GameTooltip>
 </Ui>

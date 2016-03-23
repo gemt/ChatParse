@@ -1,18 +1,18 @@
 --local BS = AceLibrary("Babble-Spell-2.2")
 
-local ChatParse = CreateChatParse("FRAME");
+local Frame = CreateFrame("FRAME");
 
-ChatParse:RegisterEvent("CHAT_MSG_YELL");
-ChatParse:RegisterEvent("CHAT_MSG_SAY");
---ChatParse:RegisterEvent("CHAT_MSG_WHISPER");
-ChatParse:RegisterEvent("CHAT_MSG_CHANNEL");
-ChatParse:RegisterEvent("CHAT_MSG_GUILD");
-ChatParse:RegisterEvent("PLAYER_LOGIN");
+Frame:RegisterEvent("CHAT_MSG_YELL");
+Frame:RegisterEvent("CHAT_MSG_SAY");
+--Frame:RegisterEvent("CHAT_MSG_WHISPER");
+Frame:RegisterEvent("CHAT_MSG_CHANNEL");
+Frame:RegisterEvent("CHAT_MSG_GUILD");
+Frame:RegisterEvent("PLAYER_LOGIN");
 
-ChatParse:RegisterEvent("ADDON_LOADED"); -- Fired when saved variables are loaded
-ChatParse:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+Frame:RegisterEvent("ADDON_LOADED"); -- Fired when saved variables are loaded
+Frame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
 
-ChatParse:SetScript("OnEvent", function () ChatParse_EventHandler(event, arg1, arg2) end)
+Frame:SetScript("OnEvent", function () ChatParse_EventHandler(event, arg1, arg2) end)
 
 SLASH_ChatParse1 = '/chatparse'
 SLASH_ChatParse2 = "/cp"
@@ -179,9 +179,8 @@ print("HaveWeMet has met " .. HaveWeMetCount .. " characters.");
 ]]--
 
 
--- ChatParse:SetScript("OnUpdate", function(self, elapsed)
-
- function ChatParse_OnUpdate(self, elapsed)
+ Frame:SetScript("OnUpdate", function(self, elapsed)
+ 
 	while queued_timestamps[queued_tail] do
 	
 		local elapsed = GetTime()  -  queued_timestamps[queued_tail];

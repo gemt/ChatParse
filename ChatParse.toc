@@ -8,4 +8,4 @@
 
 libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
 
-ChatParse.xml
+ChatParse.lua
