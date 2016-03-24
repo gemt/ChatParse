@@ -9,23 +9,29 @@ Frame:RegisterEvent("CHAT_MSG_CHANNEL");
 Frame:RegisterEvent("CHAT_MSG_GUILD");
 Frame:RegisterEvent("PLAYER_LOGIN");
 
-Frame:RegisterEvent("ADDON_LOADED"); -- Fired when saved variables are loaded
+--Frame:RegisterEvent("ADDON_LOADED"); -- Fired when saved variables are loaded
 Frame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
 
 Frame:SetScript("OnEvent", function () ChatParse_EventHandler(event, arg1, arg2) end)
 
-SLASH_ChatParse1 = '/chatparse'
-SLASH_ChatParse2 = "/cp"
-SlashCmdList['chatparse'] = ChatParse_Command;
 
-function ChatParse_OnLoad()
+--[[
+Frame:RegisterEvent("ADDON_LOADED",function()
+	_print("onload..")
+	SLASH_ChatParse1 = '/chatparse'
+	SLASH_ChatParse2 = "/cp"
+	SlashCmdList["cp"] = ChatParse_Command;
+	SlashCmdList_AddSlashCommand("/cp", ChatParse_Command)
+end)
 
-end
 
 function ChatParse_Command()
     _print("test");
 end
+--]]
+local global_mute_enabled = false
 
+local healing_wep_enabled = "On"
 local healingWepKey = {
 "+55",
 "55heal",
@@ -33,12 +39,14 @@ local healingWepKey = {
 "55 heal",
 }
 
+local agi_wep_enabled = "On"
 local agiWep = {
 "15 agi",
 "15agi",
 "weapon - agility",
 }
 
+local bracer_healing_enabled = "On"
 local bracerHealing = {
 "healing bracer",
 "+24",
@@ -46,6 +54,7 @@ local bracerHealing = {
 "24 heal",
 }
 
+local bracer_str_enabled = "On"
 local bracerStr = {
 "9 str",
 "9str",
@@ -54,6 +63,7 @@ local bracerStr = {
 
 }
 
+local gloves_str_enabled = "On"
 local glovesStr = {
 "greater strength",
 "7 str",
@@ -61,6 +71,7 @@ local glovesStr = {
 "bracer strength"
 }
 
+local chest_stats_enabled = "On"
 local statsChest = {
 "4 stats",
 "greater stats",
@@ -130,6 +141,8 @@ local queued_players = {nil,nil,nil,nil,nil,nil,nil,nil,nil,nil}
 local advertise_wait_timeout = 3;
 
 local function chatparse_advertise(name, message)
+	if global_mute_enabled then return end
+	
 	whispered(name);
 	
 	--does insert work?
@@ -178,6 +191,35 @@ print("HaveWeMet has met " .. HaveWeMetCount .. " characters.");
 --end
 ]]--
 
+local function isempty(s)
+  return s == nil or s == ''
+end
+
+local function print_global_mute()
+	if global_mute_enabled then
+		_print(" - Mute: ".."|cFF00FF00".."on")
+	else 
+		_print(" - Mute: ".."|cFFFF0000".."off")
+	end
+end
+SLASH_ChatParse1, SLASH_ChatParse2 = "/chatparse", "/cp"
+function SlashCmdList.ChatParse(msg,editbox)
+	if isempty(msg) then
+		_print("ChatParse Settings: ")
+		print_global_mute()
+	else
+		if msg == "mute" then 
+			if global_mute_enabled 
+			then global_mute_enabled = false
+			else global_mute_enabled = true
+			end
+			print_global_mute()
+		end
+	end
+	
+	
+	
+end
 
  Frame:SetScript("OnUpdate", function(self, elapsed)
  
@@ -186,8 +228,9 @@ print("HaveWeMet has met " .. HaveWeMetCount .. " characters.");
 		local elapsed = GetTime()  -  queued_timestamps[queued_tail];
 		
 		if elapsed >= advertise_wait_timeout then
-			SendChatMessage(queued_messages[queued_tail],"WHISPER",nil, queued_players[queued_tail]);
-			
+			if not global_mute_enabled then
+				SendChatMessage(queued_messages[queued_tail],"WHISPER",nil, queued_players[queued_tail]);
+			end
 			queued_timestamps[queued_tail] = nil;
 			queued_messages[queued_tail] = nil;
 			queued_players[queued_tail] = nil;
@@ -222,7 +265,9 @@ function ChatParse_EventHandler(event, text, player)
 		end
 		x = x + 1;
 	end
-	
+	if global_mute_enabled then 
+		return
+	end
 	if text ~= nil  and player ~= my_name  then
 		local i = 1;
 		textLower = string.lower(text);
