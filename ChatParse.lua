@@ -109,6 +109,8 @@ local blacklist = {
 	 "Bingtian", -- enchanter
 	 "Destroy", --enchanter
 	 "Mefire", --enchanter
+	 "Dozzy", --enchanter
+	 "spacekow" -- enchanter
 }
 
 --size of blacklist
@@ -141,7 +143,10 @@ local queued_players = {nil,nil,nil,nil,nil,nil,nil,nil,nil,nil}
 local advertise_wait_timeout = 3;
 
 local function chatparse_advertise(name, message)
-	if global_mute_enabled then return end
+	if global_mute_enabled then 
+		_print("muted")
+		return 
+	end
 	
 	whispered(name);
 	
@@ -259,7 +264,7 @@ function ChatParse_EventHandler(event, text, player)
 	while blacklist[x] do
 		if player == blacklist[x] then
 			--_print("");
-			_print("_"..player.."_ asked for an enchant, but is already in the blacklist.");
+			--_print("_"..player.."_ asked for an enchant, but is already in the blacklist.");
 			--_print("");
 			return;
 		end

@@ -4,7 +4,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Frame name="Frame">	
 		<Scripts>
 			<OnLoad>
-				ChatParse_OnLoad();
+			
 			</OnLoad>
 			<OnEvent>
 				
