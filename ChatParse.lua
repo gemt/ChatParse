@@ -37,6 +37,7 @@ local healingWepKey = {
 "55heal",
 "healing power",
 "55 heal",
+"+healing on weap"
 }
 
 local agi_wep_enabled = "On"
@@ -110,7 +111,9 @@ local blacklist = {
 	 "Destroy", --enchanter
 	 "Mefire", --enchanter
 	 "Dozzy", --enchanter
-	 "spacekow" -- enchanter
+	 "Spacekow", -- enchanter
+	 "Hograth", -- enchanter
+	 "Float", --spammed for sevral days, dont respond even though he needs 55 healing
 }
 
 --size of blacklist
@@ -129,9 +132,10 @@ local bailout_keywords = {
 
 local my_name = UnitName("player");
 
-local function whispered(name)
+function cp_whispered(name)
 	blacklist[blacklist_size] = name;
 	blacklist_size = blacklist_size +1;
+	_print(name.." added to blacklist") 
 end
 
 local queued_front = 1;
@@ -148,7 +152,7 @@ local function chatparse_advertise(name, message)
 		return 
 	end
 	
-	whispered(name);
+	cp_whispered(name);
 	
 	--does insert work?
 	--queued_timestamps.insert(GetTime());
